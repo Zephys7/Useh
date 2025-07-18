@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Carregando... - usefransemijoias</title>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;900&display=swap" rel="stylesheet" />
+  <style>
+    /* Estilos Gerais */
+    body { margin: 0; font-family: 'Nunito', sans-serif; background-color: #fff8f1; display: flex; flex-direction: column; min-height: 100vh; }
+    main { flex: 1; }
+    
+    /* Topo e Menu */
+    .top-bar { display: flex; align-items: center; background-color: white; padding: 10px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+    .menu-btn { font-size: 26px; background: none; border: none; cursor: pointer; margin-right: 16px; }
+    .sidebar { position: fixed; top: 0; left: -250px; width: 250px; height: 100%; background: white; box-shadow: 2px 0 6px rgba(0, 0, 0, 0.2); transition: left 0.3s ease; padding-top: 60px; z-index: 1001; }
+    .sidebar.active { left: 0; }
+    .sidebar a { display: block; padding: 15px 20px; text-decoration: none; color: #333; border-bottom: 1px solid #eee; }
+    .overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.3); z-index: 1000; }
+    .overlay.active { display: block; }
+    
+    /* Estilos da Página de Produto */
+    .product-detail-container {
+      max-width: 1000px; margin: 40px auto; padding: 20px; display: flex;
+      gap: 40px; background-color: white; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    .product-image-section { flex: 1; text-align: center; }
+    .product-image-section img { max-width: 100%; border-radius: 8px; }
+    .product-info-section { flex: 1; }
+    .product-info-section h1 { font-size: 2.2em; margin-top: 0; color: #333; }
+    .product-price { font-size: 2em; color: #d4af37; font-weight: 900; margin: 10px 0; }
+    .product-description { font-size: 1.1em; line-height: 1.6; color: #666; margin: 20px 0; }
+    .add-to-cart-btn {
+      background-color: #d4af37; color: white; border: none; padding: 15px 30px;
+      font-weight: bold; border-radius: 6px; cursor: pointer; font-size: 1.1em; transition: background-color 0.2s;
+    }
+    .add-to-cart-btn:hover { background-color: #c09b2e; }
+
+    @media (max-width: 768px) {
+      .product-detail-container { flex-direction: column; }
+      .product-info-section h1 { font-size: 1.8em; }
+      .product-price { font-size: 1.6em; }
+    }
+    
+    /* Estilos do Footer */
+    .site-footer { background-color: white; color: #333; padding: 40px 20px 10px 20px; border-top: 2px solid #eee; margin-top: auto; }
+    .footer-container { display: flex; justify-content: space-between; flex-wrap: wrap; max-width: 1200px; margin: 0 auto; gap: 20px; }
+    .footer-column { flex: 1; min-width: 250px; }
+    .footer-column h4 { color: #d4af37; margin-top: 0; }
+    .footer-column ul { list-style: none; padding: 0; margin: 0; }
+    .footer-column ul a { text-decoration: none; color: #555; }
+    .footer-column ul a:hover { color: #d4af37; }
+    .social-icons a { margin-right: 15px; }
+    .social-icons img { width: 28px; height: 28px; }
+    .footer-bottom { text-align: center; margin-top: 30px; padding-top: 15px; border-top: 1px solid #eee; }
+  </style>
+</head>
+<body>
+  <div class="top-bar">
+    <button class="menu-btn" onclick="toggleMenu()">☰</button>
+  </div>
+  
+  <main id="product-detail-main" class="product-detail-container">
+    <div class="product-image-section">
+      <img id="product-image" src="" alt="Imagem do Produto">
+    </div>
+    <div class="product-info-section">
+      <h1 id="product-name"></h1>
+      <p id="product-price" class="product-price"></p>
+      <p id="product-description" class="product-description"></p>
+      <button class="add-to-cart-btn">Adicionar ao Carrinho</button>
+    </div>
+  </main>
+  
+  <div id="error-message" style="text-align: center; padding: 50px; display: none;">
+    <h1>Produto não encontrado</h1>
+    <p>O produto que você está procurando não existe ou foi removido. <a href="index.html">Voltar para a página inicial</a></p>
+  </div>
+
+  <div class="sidebar" id="sidebar">
+    <a href="index.html">Início</a>
+    <a href="aneis.html">Anéis</a>
+    <a href="brincos.html">Brincos</a>
+    <a href="colares.html">Colares</a>
+    <a href="pulseiras.html">Pulseiras</a>
+  </div>
+  <div class="overlay" id="overlay" onclick="closeMenu()"></div>
+
+  <footer class="site-footer">
+    </footer>
+
+  <script src="produtos.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const params = new URLSearchParams(window.location.search);
+      const productId = params.get('id');
+      const produto = produtos.find(p => p.id === productId);
+
+      if (produto) {
+        document.title = `${produto.nome} - usefransemijoias`;
+        document.getElementById('product-name').textContent = produto.nome;
+        document.getElementById('product-price').textContent = `R$ ${produto.preco.toFixed(2).replace('.', ',')}`;
+        document.getElementById('product-image').src = produto.imagem;
+        document.getElementById('product-image').alt = produto.nome;
+        document.getElementById('product-description').textContent = produto.descricao;
+      } else {
+        document.getElementById('product-detail-main').style.display = 'none';
+        document.getElementById('error-message').style.display = 'block';
+        document.title = 'Produto não encontrado - usefransemijoias';
+      }
+    });
+
+    function toggleMenu() {
+      document.getElementById('sidebar').classList.toggle('active');
+      document.getElementById('overlay').classList.toggle('active');
+    }
+    function closeMenu() {
+      document.getElementById('sidebar').classList.remove('active');
+      document.getElementById('overlay').classList.remove('active');
+    }
+  </script>
+</body>
+</html>
