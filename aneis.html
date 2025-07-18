@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Anéis - usefransemijoias</title>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;900&display=swap" rel="stylesheet" />
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Nunito', sans-serif;
+      background-color: #fff8f1;
+    }
+
+    .top-bar {
+      display: flex;
+      align-items: center;
+      background-color: white;
+      padding: 10px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .menu-btn {
+      font-size: 26px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      margin-right: 16px;
+    }
+
+    .category-banner {
+      background-image: url('https://via.placeholder.com/1200x300?text=Anéis');
+      background-size: cover;
+      background-position: center;
+      padding: 40px 20px;
+      text-align: center;
+      color: #d4af37;
+      font-size: 32px;
+      font-weight: 900;
+    }
+
+    .search-bar {
+      margin: 20px;
+      text-align: center;
+    }
+
+    .search-bar input {
+      width: 100%;
+      max-width: 500px;
+      padding: 10px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+    }
+
+    .product-grid {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+      padding: 20px;
+    }
+
+    .product-card {
+      background: white;
+      border: 1px solid #d4af37;
+      border-radius: 10px;
+      padding: 15px;
+      width: 280px;
+      text-align: center;
+    }
+
+    .product-card img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 8px;
+    }
+
+    .product-card h3 {
+      margin: 10px 0 5px;
+    }
+
+    .product-card p {
+      color: #666;
+      margin: 0 0 10px;
+    }
+
+    .product-card button {
+      background-color: #d4af37;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      font-weight: bold;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    .sidebar {
+      position: fixed;
+      top: 0;
+      left: -250px;
+      width: 250px;
+      height: 100%;
+      background: white;
+      box-shadow: 2px 0 6px rgba(0, 0, 0, 0.2);
+      transition: left 0.3s ease;
+      padding-top: 60px;
+      z-index: 1000;
+    }
+
+    .sidebar.active {
+      left: 0;
+    }
+
+    .sidebar a {
+      display: block;
+      padding: 15px 20px;
+      text-decoration: none;
+      color: #333;
+      border-bottom: 1px solid #eee;
+    }
+
+    .overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.3);
+      z-index: 900;
+    }
+
+    .overlay.active {
+      display: block;
+    }
+  </style>
+</head>
+<body>
+  <div class="top-bar">
+    <button class="menu-btn" onclick="toggleMenu()">☰</button>
+  </div>
+
+  <div class="category-banner">
+    Anéis
+  </div>
+
+  <div class="search-bar">
+    <input type="text" placeholder="Buscar pulseira...">
+  <div class="filter-bar" style="text-align: center; margin-bottom: 20px;">
+  <label for="sort-filter">Ordenar por: </label>
+  <select id="sort-filter" style="padding: 8px; border-radius: 6px; border: 1px solid #ccc;">
+    <option value="relevance">Mais Relevante</option>
+    <option value="price-asc">Menor Preço</option>
+    <option value="price-desc">Maior Preço</option>
+    <option value="newest">Novidades</option>
+  </select>
+</div>
+  </div>
+  
+  <div class="product-grid">
+    <div class="product-card">
+      <img src="https://via.placeholder.com/200x200?text=Anéi+1" alt="Anéi 1">
+      <h3>Anéi com Pérolas</h3>
+      <p>Suavidade e charme</p>
+      <button>Comprar</button>
+    </div>
+    <div class="product-card">
+      <img src="https://via.placeholder.com/200x200?text=Anéi+2" alt="Anéi 2">
+      <h3>Anéi Dourada</h3>
+      <p>Estilo refinado</p>
+      <button>Comprar</button>
+    </div>
+  </div>
+
+  <div class="sidebar" id="sidebar">
+    <a href="index.html">Início</a>
+    <a href="aneis.html">Anéis</a>
+    <a href="brincos.html">Brincos</a>
+    <a href="aneis.html">Anéis</a>
+    <a href="colares.html">Colares</a>
+  </div>
+
+  <div class="overlay" id="overlay" onclick="closeMenu()"></div>
+
+  <script>
+    function toggleMenu() {
+      document.getElementById('sidebar').classList.toggle('active');
+      document.getElementById('overlay').classList.toggle('active');
+    }
+    function closeMenu() {
+      document.getElementById('sidebar').classList.remove('active');
+      document.getElementById('overlay').classList.remove('active');
+    }
+  </script>
+</body>
+</html>
