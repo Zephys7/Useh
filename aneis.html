@@ -6,133 +6,59 @@
   <title>Anéis - usefransemijoias</title>
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;900&display=swap" rel="stylesheet" />
   <style>
-    body {
-      margin: 0;
-      font-family: 'Nunito', sans-serif;
-      background-color: #fff8f1;
-    }
+    body { margin: 0; font-family: 'Nunito', sans-serif; background-color: #fff8f1; }
+    .top-bar { display: flex; align-items: center; background-color: white; padding: 10px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+    .menu-btn { font-size: 26px; background: none; border: none; cursor: pointer; margin-right: 16px; }
+    .category-banner { background-image: url('https://via.placeholder.com/1200x300?text=Anéis'); background-size: cover; background-position: center; padding: 40px 20px; text-align: center; color: #d4af37; font-size: 32px; font-weight: 900; }
+    .search-bar { margin: 20px; text-align: center; }
+    .search-bar input { width: 100%; max-width: 500px; padding: 10px; font-size: 16px; border: 1px solid #ccc; border-radius: 8px; }
+    .product-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; padding: 20px; }
+    .product-card { background: white; border: 1px solid #d4af37; border-radius: 10px; padding: 15px; width: 280px; text-align: center; }
+    .product-card img { max-width: 100%; height: auto; border-radius: 8px; }
+    .product-card h3 { margin: 10px 0 5px; }
+    .product-card p { color: #666; margin: 0 0 10px; }
+    .product-card button { background-color: #d4af37; color: white; border: none; padding: 10px 20px; font-weight: bold; border-radius: 6px; cursor: pointer; }
+    .sidebar { position: fixed; top: 0; left: -250px; width: 250px; height: 100%; background: white; box-shadow: 2px 0 6px rgba(0, 0, 0, 0.2); transition: left 0.3s ease; padding-top: 60px; z-index: 1001; }
+    .sidebar.active { left: 0; }
+    .sidebar a { display: block; padding: 15px 20px; text-decoration: none; color: #333; border-bottom: 1px solid #eee; }
+    .overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.3); z-index: 1000; }
+    .overlay.active { display: block; }
 
-    .top-bar {
-      display: flex;
-      align-items: center;
-      background-color: white;
-      padding: 10px;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    #whatsapp-button {
+      position: fixed; bottom: 20px; right: 20px; width: 60px; height: 60px;
+      background-color: #25D366; border-radius: 50%; box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.25);
+      z-index: 1000; display: flex; align-items: center; justify-content: center;
+      transition: transform 0.2s ease-in-out;
     }
+    #whatsapp-button:hover { transform: scale(1.1); }
+    #whatsapp-button img { width: 35px; height: 35px; }
 
-    .menu-btn {
-      font-size: 26px;
-      background: none;
-      border: none;
-      cursor: pointer;
-      margin-right: 16px;
+    .site-footer {
+      background-color: white; color: #333; padding: 40px 20px 10px 20px;
+      border-top: 2px solid #eee; margin-top: 40px; font-family: 'Nunito', sans-serif;
     }
-
-    .category-banner {
-      background-image: url('https://via.placeholder.com/1200x300?text=Anéis');
-      background-size: cover;
-      background-position: center;
-      padding: 40px 20px;
-      text-align: center;
-      color: #d4af37;
-      font-size: 32px;
-      font-weight: 900;
+    .footer-container {
+      display: flex; justify-content: space-between; flex-wrap: wrap;
+      max-width: 1200px; margin: 0 auto; gap: 20px;
     }
-
-    .search-bar {
-      margin: 20px;
-      text-align: center;
-    }
-
-    .search-bar input {
-      width: 100%;
-      max-width: 500px;
-      padding: 10px;
-      font-size: 16px;
-      border: 1px solid #ccc;
-      border-radius: 8px;
-    }
-
-    .product-grid {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 20px;
-      padding: 20px;
-    }
-
-    .product-card {
-      background: white;
-      border: 1px solid #d4af37;
-      border-radius: 10px;
-      padding: 15px;
-      width: 280px;
-      text-align: center;
-    }
-
-    .product-card img {
-      max-width: 100%;
-      height: auto;
-      border-radius: 8px;
-    }
-
-    .product-card h3 {
-      margin: 10px 0 5px;
-    }
-
-    .product-card p {
-      color: #666;
-      margin: 0 0 10px;
-    }
-
-    .product-card button {
-      background-color: #d4af37;
-      color: white;
-      border: none;
-      padding: 10px 20px;
-      font-weight: bold;
-      border-radius: 6px;
-      cursor: pointer;
-    }
-
-    .sidebar {
-      position: fixed;
-      top: 0;
-      left: -250px;
-      width: 250px;
-      height: 100%;
-      background: white;
-      box-shadow: 2px 0 6px rgba(0, 0, 0, 0.2);
-      transition: left 0.3s ease;
-      padding-top: 60px;
-      z-index: 1000;
-    }
-
-    .sidebar.active {
-      left: 0;
-    }
-
-    .sidebar a {
-      display: block;
-      padding: 15px 20px;
-      text-decoration: none;
-      color: #333;
-      border-bottom: 1px solid #eee;
-    }
-
-    .overlay {
-      display: none;
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-color: rgba(0, 0, 0, 0.3);
-      z-index: 900;
-    }
-
-    .overlay.active {
-      display: block;
+    .footer-column { flex: 1; min-width: 250px; }
+    .footer-column h4 { color: #d4af37; margin-top: 0; margin-bottom: 15px; font-weight: 700; }
+    .footer-column p { line-height: 1.6; font-size: 15px; }
+    .footer-column ul { list-style: none; padding: 0; margin: 0; }
+    .footer-column ul li { margin-bottom: 10px; }
+    .footer-column ul a { text-decoration: none; color: #555; transition: color 0.2s ease; }
+    .footer-column ul a:hover { color: #d4af37; }
+    .social-icons { margin-top: 20px; }
+    .social-icons a { margin-right: 15px; display: inline-block; }
+    .social-icons img { width: 28px; height: 28px; opacity: 0.7; transition: opacity 0.2s ease; }
+    .social-icons a:hover img { opacity: 1; }
+    .footer-bottom { text-align: center; margin-top: 30px; padding-top: 15px; border-top: 1px solid #eee; }
+    .footer-bottom p { margin: 0; font-size: 14px; color: #888; }
+    
+    @media (max-width: 768px) {
+      .footer-container { flex-direction: column; align-items: center; text-align: center; }
+      .footer-column { min-width: 100%; margin-bottom: 30px; }
+      .social-icons { text-align: center; }
     }
   </style>
 </head>
@@ -146,42 +72,85 @@
   </div>
 
   <div class="search-bar">
-    <input type="text" placeholder="Buscar pulseira...">
-  <div class="filter-bar" style="text-align: center; margin-bottom: 20px;">
-  <label for="sort-filter">Ordenar por: </label>
-  <select id="sort-filter" style="padding: 8px; border-radius: 6px; border: 1px solid #ccc;">
-    <option value="relevance">Mais Relevante</option>
-    <option value="price-asc">Menor Preço</option>
-    <option value="price-desc">Maior Preço</option>
-    <option value="newest">Novidades</option>
-  </select>
-</div>
+    <input type="text" placeholder="Buscar anel...">
   </div>
-  
+
+  <div class="filter-bar" style="text-align: center; margin-bottom: 20px;">
+    <label for="sort-filter">Ordenar por: </label>
+    <select id="sort-filter" style="padding: 8px; border-radius: 6px; border: 1px solid #ccc;">
+      <option value="relevance">Mais Relevante</option>
+      <option value="price-asc">Menor Preço</option>
+      <option value="price-desc">Maior Preço</option>
+      <option value="newest">Novidades</option>
+    </select>
+  </div>
+
   <div class="product-grid">
-    <div class="product-card">
-      <img src="https://via.placeholder.com/200x200?text=Anéi+1" alt="Anéi 1">
-      <h3>Anéi com Pérolas</h3>
-      <p>Suavidade e charme</p>
-      <button>Comprar</button>
-    </div>
-    <div class="product-card">
-      <img src="https://via.placeholder.com/200x200?text=Anéi+2" alt="Anéi 2">
-      <h3>Anéi Dourada</h3>
-      <p>Estilo refinado</p>
-      <button>Comprar</button>
-    </div>
+    <a href="produto.html?id=anel-solitario" class="product-card" data-price="110.00" data-date="2025-07-05" style="text-decoration: none; color: inherit;">
+      <img src="https://via.placeholder.com/200x200?text=Anel+Solitário" alt="Anel Solitário">
+      <h3>Anel Solitário</h3>
+      <p>Suavidade e charme - R$ 110,00</p>
+      <button>Ver Detalhes</button>
+    </a>
+    <a href="produto.html?id=anel-coracao" class="product-card" data-price="180.00" data-date="2025-04-30" style="text-decoration: none; color: inherit;">
+      <img src="https://via.placeholder.com/200x200?text=Anel+Coração" alt="Anel Coração">
+      <h3>Anel Coração</h3>
+      <p>Estilo refinado - R$ 180,00</p>
+      <button>Ver Detalhes</button>
+    </a>
+    <a href="produto.html?id=anel-aparador" class="product-card" data-price="135.50" data-date="2025-07-20" style="text-decoration: none; color: inherit;">
+      <img src="https://via.placeholder.com/200x200?text=Anel+Aparador" alt="Anel Aparador">
+      <h3>Anel Aparador</h3>
+      <p>Complemento ideal - R$ 135,50</p>
+      <button>Ver Detalhes</button>
+    </a>
   </div>
 
   <div class="sidebar" id="sidebar">
     <a href="index.html">Início</a>
     <a href="aneis.html">Anéis</a>
     <a href="brincos.html">Brincos</a>
-    <a href="aneis.html">Anéis</a>
     <a href="colares.html">Colares</a>
+    <a href="pulseiras.html">Pulseiras</a>
   </div>
-
   <div class="overlay" id="overlay" onclick="closeMenu()"></div>
+
+  <footer class="site-footer">
+    <div class="footer-container">
+      <div class="footer-column">
+        <h4>Sobre a usefransemijoias</h4>
+        <p>Apaixonados por realçar a beleza e a elegância em cada detalhe. Oferecemos semijoias de alta qualidade, feitas com carinho para você brilhar.</p>
+      </div>
+      <div class="footer-column">
+        <h4>Links Úteis</h4>
+        <ul>
+          <li><a href="index.html">Início</a></li>
+          <li><a href="colares.html">Colares</a></li>
+          <li><a href="brincos.html">Brincos</a></li>
+          <li><a href="aneis.html">Anéis</a></li>
+          <li><a href="pulseiras.html">Pulseiras</a></li>
+        </ul>
+      </div>
+      <div class="footer-column">
+        <h4>Contato</h4>
+        <ul>
+          <li>Email: <a href="mailto:seu-email@exemplo.com">seu-email@exemplo.com</a></li>
+          <li>WhatsApp: <a href="https://wa.me/5511999998888" target="_blank"> (11) 99999-8888</a></li>
+        </ul>
+        <div class="social-icons">
+          <a href="#" target="_blank" aria-label="Instagram"><img src="https://icon.icepanel.io/AWS/16/Arch-Social/Arch_Amazon-Chime-SDK.svg" alt="Instagram"></a>
+          <a href="#" target="_blank" aria-label="Facebook"><img src="https://icon.icepanel.io/AWS/16/Arch-Business-Applications/Arch_AWS-Wickr.svg" alt="Facebook"></a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2025 usefransemijoias. Todos os direitos reservados.</p>
+    </div>
+  </footer>
+  
+  <a href="https://wa.me/5511999998888?text=Ol%C3%A1%21%20Tenho%20uma%20d%C3%BAvida%20sobre%20os%20produtos." id="whatsapp-button" target="_blank" rel="noopener noreferrer">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/WhatsApp.svg/240px-WhatsApp.svg.png" alt="Fale Conosco pelo WhatsApp">
+  </a>
 
   <script>
     function toggleMenu() {
@@ -192,6 +161,46 @@
       document.getElementById('sidebar').classList.remove('active');
       document.getElementById('overlay').classList.remove('active');
     }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const searchInput = document.querySelector('.search-bar input');
+      const sortFilter = document.getElementById('sort-filter');
+      const productGrid = document.querySelector('.product-grid');
+      // Transforma os links em um array para manipular
+      const productCards = Array.from(productGrid.querySelectorAll('.product-card'));
+
+      function normalizeString(str) {
+        return str.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+      }
+
+      function filterAndSortProducts() {
+        const searchTerm = normalizeString(searchInput.value);
+        const sortValue = sortFilter.value;
+
+        let filteredProducts = productCards.filter(card => {
+          const title = normalizeString(card.querySelector('h3').textContent);
+          const description = normalizeString(card.querySelector('p').textContent);
+          return title.includes(searchTerm) || description.includes(searchTerm);
+        });
+
+        filteredProducts.sort((a, b) => {
+          switch (sortValue) {
+            case 'price-asc': return parseFloat(a.dataset.price) - parseFloat(b.dataset.price);
+            case 'price-desc': return parseFloat(b.dataset.price) - parseFloat(a.dataset.price);
+            case 'newest': return new Date(b.dataset.date) - new Date(a.dataset.date);
+            case 'relevance': default: return productCards.indexOf(a) - productCards.indexOf(b);
+          }
+        });
+
+        productGrid.innerHTML = '';
+        filteredProducts.forEach(card => {
+          productGrid.appendChild(card);
+        });
+      }
+
+      searchInput.addEventListener('input', filterAndSortProducts);
+      sortFilter.addEventListener('change', filterAndSortProducts);
+    });
   </script>
 </body>
 </html>
