@@ -80,63 +80,74 @@
 
   <script src="produtos.js"></script>
   <script>
-    function toggleMenu() { /* ... */ }
-    function closeMenu() { /* ... */ }
-    function getCart() { return JSON.parse(localStorage.getItem('usefran_cart')) || []; }
-    function saveCart(cart) { localStorage.setItem('usefran_cart', JSON.stringify(cart)); }
-    function updateCartCounter() {
-      const cartCounter = document.getElementById('cart-item-count');
-      if (cartCounter) { cartCounter.textContent = getCart().length; }
-    }
-    function addToCart(productId) {
-      const cart = getCart();
-      const productToAdd = produtos.find(p => p.id === productId);
-      if (productToAdd) {
-        cart.push(productToAdd);
-        saveCart(cart);
-        updateCartCounter();
-        alert(`"${productToAdd.nome}" foi adicionado ao carrinho!`);
-      } else { alert('Erro: Produto não encontrado.'); }
-    }
-
     document.addEventListener('DOMContentLoaded', () => {
+  // --- TESTE PASSO 1: Lendo a URL ---
+  const params = new URLSearchParams(window.location.search);
+  const productId = params.get('id');
+  alert(`PASSO 1: ID pego da URL foi: '${productId}'`);
+
+  // --- TESTE PASSO 2: Verificando o "Banco de Dados" ---
+  // A variável 'produtos' deve vir do arquivo produtos.js
+  if (typeof produtos !== 'undefined') {
+    alert(`PASSO 2: O arquivo produtos.js foi lido. Total de produtos no 'banco de dados': ${produtos.length}`);
+    
+    // --- TESTE PASSO 3: Comparando os IDs ---
+    const todosOsIDs = produtos.map(p => p.id).join(', ');
+    alert(`PASSO 3: Os IDs disponíveis são: [${todosOsIDs}]`);
+
+    const produtoEncontrado = produtos.find(p => p.id === productId);
+
+    // --- TESTE PASSO 4: O Resultado Final ---
+    if (produtoEncontrado) {
+      alert("✅ SUCESSO! Produto encontrado. Os botões deveriam funcionar agora.");
+      
+      // Se o sucesso foi alcançado, o código original é executado.
+      document.title = `${produtoEncontrado.nome} - usefransemijoias`;
+      document.getElementById('product-name').textContent = produtoEncontrado.nome;
+      document.getElementById('product-price').textContent = `R$ ${produtoEncontrado.preco.toFixed(2).replace('.', ',')}`;
+      document.getElementById('product-image').src = produtoEncontrado.imagem;
+      document.getElementById('product-image').alt = produtoEncontrado.nome;
+      document.getElementById('product-description').textContent = produtoEncontrado.descricao;
+
+      const addToCartButton = document.getElementById('add-to-cart-button');
+      const buyNowButton = document.getElementById('buy-now-button');
+      const seuNumero = '5569123456789'; // SEU NÚMERO AQUI
+
+      const getCart = () => JSON.parse(localStorage.getItem('usefran_cart')) || [];
+      const saveCart = (cart) => localStorage.setItem('usefran_cart', JSON.stringify(cart));
+      const updateCartCounter = () => {
+          const cartCounter = document.getElementById('cart-item-count');
+          if (cartCounter) cartCounter.textContent = getCart().length;
+      };
+      const addToCart = (id) => {
+          const cart = getCart();
+          const p = produtos.find(prod => prod.id === id);
+          if (p) {
+              cart.push(p);
+              saveCart(cart);
+              updateCartCounter();
+              alert(`"${p.nome}" foi adicionado ao carrinho!`);
+          }
+      };
+      
       updateCartCounter();
+      addToCartButton.addEventListener('click', () => addToCart(productId));
+      buyNowButton.addEventListener('click', () => {
+        const mensagem = encodeURIComponent(`Olá! Tenho interesse na semijoia (compra rápida): ${produtoEncontrado.nome}`);
+        const whatsappLink = `https://wa.me/${seuNumero}?text=${mensagem}`;
+        window.open(whatsappLink, '_blank');
+      });
 
-      const productDetailContainer = document.getElementById('product-detail-main');
-      if (productDetailContainer) {
-        const params = new URLSearchParams(window.location.search);
-        const productId = params.get('id');
-        const produto = produtos.find(p => p.id === productId);
+    } else {
+      alert("❌ FALHA! O ID da URL não foi encontrado no 'banco de dados'. Verifique se os IDs correspondem.");
+      document.getElementById('product-detail-main').style.display = 'none';
+      document.getElementById('error-message').style.display = 'block';
+    }
 
-        if (produto) {
-          // NOVO TESTE DE FOGO
-          alert('Produto encontrado! Ativando os botões...');
-
-          document.title = `${produto.nome} - usefransemijoias`;
-          document.getElementById('product-name').textContent = produto.nome;
-          document.getElementById('product-price').textContent = `R$ ${produto.preco.toFixed(2).replace('.', ',')}`;
-          document.getElementById('product-image').src = produto.imagem;
-          document.getElementById('product-image').alt = produto.nome;
-          document.getElementById('product-description').textContent = produto.descricao;
-
-          const addToCartButton = document.getElementById('add-to-cart-button');
-          const buyNowButton = document.getElementById('buy-now-button');
-          const seuNumero = '5569123456789'; // SUBSTITUA PELO SEU NÚMERO
-
-          addToCartButton.addEventListener('click', () => { addToCart(productId); });
-          buyNowButton.addEventListener('click', () => {
-            const mensagem = encodeURIComponent(`Olá! Tenho interesse na semijoia (compra rápida): ${produto.nome}`);
-            const whatsappLink = `https://wa.me/${seuNumero}?text=${mensagem}`;
-            window.open(whatsappLink, '_blank');
-          });
-
-        } else {
-          productDetailContainer.style.display = 'none';
-          document.getElementById('error-message').style.display = 'block';
-          document.title = 'Produto não encontrado - usefransemijoias';
-        }
-      }
-    });
+  } else {
+    alert("❌ ERRO CRÍTICO! O arquivo produtos.js não foi carregado corretamente ou a variável 'produtos' não foi definida.");
+  }
+});
   </script>
 </body>
 </html>
