@@ -9,10 +9,30 @@
     /* Estilos Gerais */
     body { margin: 0; font-family: 'Nunito', sans-serif; background-color: #fff8f1; display: flex; flex-direction: column; min-height: 100vh; }
     main { flex: 1; }
+
+    /* Cabeçalho (Header) */
+    .site-header {
+      background-color: white; padding: 0 20px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      position: sticky; top: 0; z-index: 999; width: 100%; box-sizing: border-box;
+    }
+    .header-container {
+      display: flex; justify-content: space-between; align-items: center;
+      max-width: 1200px; margin: 0 auto; height: 60px;
+    }
+    .logo { font-weight: 900; font-size: 1.5em; }
+    .logo a { text-decoration: none; color: #d4af37; }
+    .desktop-nav { display: none; }
+    .desktop-nav a { margin: 0 15px; text-decoration: none; color: #333; font-weight: 700; transition: color 0.2s; }
+    .desktop-nav a:hover { color: #d4af37; }
+    .cart-icon a { position: relative; display: block; }
+    .cart-icon img { width: 32px; height: 32px; }
+    #cart-item-count {
+      position: absolute; top: -5px; right: -10px; background-color: #d4af37;
+      color: white; border-radius: 50%; width: 20px; height: 20px; font-size: 12px;
+      font-weight: bold; display: flex; align-items: center; justify-content: center;
+    }
     
-    /* Topo e Menu */
-    .top-bar { display: flex; align-items: center; background-color: white; padding: 10px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
-    .menu-btn { font-size: 26px; background: none; border: none; cursor: pointer; margin-right: 16px; }
+    /* Menu Lateral (Sidebar) */
     .sidebar { position: fixed; top: 0; left: -250px; width: 250px; height: 100%; background: white; box-shadow: 2px 0 6px rgba(0, 0, 0, 0.2); transition: left 0.3s ease; padding-top: 60px; z-index: 1001; }
     .sidebar.active { left: 0; }
     .sidebar a { display: block; padding: 15px 20px; text-decoration: none; color: #333; border-bottom: 1px solid #eee; }
@@ -30,20 +50,24 @@
     .product-info-section h1 { font-size: 2.2em; margin-top: 0; color: #333; }
     .product-price { font-size: 2em; color: #d4af37; font-weight: 900; margin: 10px 0; }
     .product-description { font-size: 1.1em; line-height: 1.6; color: #666; margin: 20px 0; }
-    .add-to-cart-btn {
-      background-color: #d4af37; color: white; border: none; padding: 15px 30px;
-      font-weight: bold; border-radius: 6px; cursor: pointer; font-size: 1.1em; transition: background-color 0.2s;
-    }
-    .add-to-cart-btn:hover { background-color: #c09b2e; }
-
-    @media (max-width: 768px) {
-      .product-detail-container { flex-direction: column; }
-      .product-info-section h1 { font-size: 1.8em; }
-      .product-price { font-size: 1.6em; }
-    }
     
-    /* Estilos do Footer */
-    .site-footer { background-color: white; color: #333; padding: 40px 20px 10px 20px; border-top: 2px solid #eee; margin-top: auto; }
+    .button-group { margin-top: 30px; display: flex; flex-direction: column; gap: 15px; }
+    .add-to-cart-btn {
+      background-color: #d4af37; color: white; border: 2px solid #d4af37; padding: 15px 30px;
+      font-weight: bold; border-radius: 6px; cursor: pointer; font-size: 1.1em; transition: all 0.2s;
+    }
+    .add-to-cart-btn:hover { background-color: #c09b2e; border-color: #c09b2e; }
+    .buy-now-btn {
+      background-color: transparent; color: #d4af37; border: 2px solid #d4af37; padding: 15px 30px;
+      font-weight: bold; border-radius: 6px; cursor: pointer; font-size: 1.1em; transition: all 0.2s;
+    }
+    .buy-now-btn:hover { background-color: #d4af37; color: white; }
+
+    /* Footer */
+    .site-footer {
+      background-color: white; color: #333; padding: 40px 20px 10px 20px;
+      border-top: 2px solid #eee; margin-top: auto;
+    }
     .footer-container { display: flex; justify-content: space-between; flex-wrap: wrap; max-width: 1200px; margin: 0 auto; gap: 20px; }
     .footer-column { flex: 1; min-width: 250px; }
     .footer-column h4 { color: #d4af37; margin-top: 0; }
@@ -53,12 +77,40 @@
     .social-icons a { margin-right: 15px; }
     .social-icons img { width: 28px; height: 28px; }
     .footer-bottom { text-align: center; margin-top: 30px; padding-top: 15px; border-top: 1px solid #eee; }
+    
+    /* Responsividade */
+    @media (min-width: 769px) {
+      .menu-btn { display: none; }
+      .desktop-nav { display: block; }
+    }
+    @media (max-width: 768px) {
+      .product-detail-container { flex-direction: column; }
+      .footer-container { flex-direction: column; align-items: center; text-align: center; }
+      .footer-column { min-width: 100%; margin-bottom: 30px; }
+      .social-icons { text-align: center; }
+    }
   </style>
 </head>
 <body>
-  <div class="top-bar">
-    <button class="menu-btn" onclick="toggleMenu()">☰</button>
-  </div>
+  <header class="site-header">
+    <div class="header-container">
+      <button class="menu-btn" onclick="toggleMenu()">☰</button>
+      <div class="logo"><a href="index.html">usefransemijoias</a></div>
+      <nav class="desktop-nav">
+        <a href="index.html">Início</a>
+        <a href="colares.html">Colares</a>
+        <a href="brincos.html">Brincos</a>
+        <a href="aneis.html">Anéis</a>
+        <a href="pulseiras.html">Pulseiras</a>
+      </nav>
+      <div class="cart-icon">
+        <a href="carrinho.html">
+          <img src='data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg>' alt="Carrinho de Compras">
+          <span id="cart-item-count">0</span>
+        </a>
+      </div>
+    </div>
+  </header>
   
   <main id="product-detail-main" class="product-detail-container">
     <div class="product-image-section">
@@ -68,7 +120,10 @@
       <h1 id="product-name"></h1>
       <p id="product-price" class="product-price"></p>
       <p id="product-description" class="product-description"></p>
-      <button id="buy-whatsapp-btn" class="add-to-cart-btn">Pedir no WhatsApp</button>
+      <div class="button-group">
+        <button id="add-to-cart-button" class="add-to-cart-btn">Adicionar ao Carrinho</button>
+        <button id="buy-now-button" class="buy-now-btn">Compra Rápida via WhatsApp</button>
+      </div>
     </div>
   </main>
   
@@ -78,38 +133,40 @@
   </div>
 
   <div class="sidebar" id="sidebar">
-    <a href="index.html">Início</a>
-    <a href="aneis.html">Anéis</a>
-    <a href="brincos.html">Brincos</a>
-    <a href="colares.html">Colares</a>
-    <a href="pulseiras.html">Pulseiras</a>
+    <a href="index.html">Início</a><a href="aneis.html">Anéis</a><a href="brincos.html">Brincos</a>
+    <a href="colares.html">Colares</a><a href="pulseiras.html">Pulseiras</a>
   </div>
   <div class="overlay" id="overlay" onclick="closeMenu()"></div>
 
   <footer class="site-footer">
-    </footer>
+    <div class="footer-container">
+      <div class="footer-column">
+        <h4>Sobre a usefransemijoias</h4>
+        <p>Apaixonados por realçar a beleza e a elegância em cada detalhe. Oferecemos semijoias de alta qualidade, feitas com carinho para você brilhar em Porto Velho.</p>
+      </div>
+      <div class="footer-column">
+        <h4>Links Úteis</h4>
+        <ul>
+          <li><a href="index.html">Início</a></li><li><a href="colares.html">Colares</a></li>
+          <li><a href="brincos.html">Brincos</a></li><li><a href="aneis.html">Anéis</a></li>
+          <li><a href="pulseiras.html">Pulseiras</a></li>
+        </ul>
+      </div>
+      <div class="footer-column">
+        <h4>Contato</h4>
+        <ul>
+          <li>Email: <a href="mailto:contato@exemplo.com">contato@exemplo.com</a></li>
+          <li>WhatsApp: <a href="https://wa.me/5569XXXXXXXXX" target="_blank">(69) XXXXX-XXXX</a></li>
+          <li>📍 Porto Velho, RO</li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom"><p>© 2025 usefransemijoias. Todos os direitos reservados.</p></div>
+  </footer>
 
   <script src="produtos.js"></script>
   <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      const params = new URLSearchParams(window.location.search);
-      const productId = params.get('id');
-      const produto = produtos.find(p => p.id === productId);
-
-      if (produto) {
-        document.title = `${produto.nome} - usefransemijoias`;
-        document.getElementById('product-name').textContent = produto.nome;
-        document.getElementById('product-price').textContent = `R$ ${produto.preco.toFixed(2).replace('.', ',')}`;
-        document.getElementById('product-image').src = produto.imagem;
-        document.getElementById('product-image').alt = produto.nome;
-        document.getElementById('product-description').textContent = produto.descricao;
-      } else {
-        document.getElementById('product-detail-main').style.display = 'none';
-        document.getElementById('error-message').style.display = 'block';
-        document.title = 'Produto não encontrado - usefransemijoias';
-      }
-    });
-
+    // --- FUNÇÕES DO MENU LATERAL ---
     function toggleMenu() {
       document.getElementById('sidebar').classList.toggle('active');
       document.getElementById('overlay').classList.toggle('active');
@@ -118,22 +175,69 @@
       document.getElementById('sidebar').classList.remove('active');
       document.getElementById('overlay').classList.remove('active');
     }
-    // Dentro do if (produto) { ... }, depois das outras linhas.
 
-const buyButton = document.getElementById('buy-whatsapp-btn');
-const seuNumero = '5569999998888'; // <-- COLOQUE SEU NÚMERO AQUI
+    // --- LÓGICA DO CARRINHO DE COMPRAS ---
+    function getCart() { return JSON.parse(localStorage.getItem('usefran_cart')) || []; }
+    function saveCart(cart) { localStorage.setItem('usefran_cart', JSON.stringify(cart)); }
+    function updateCartCounter() {
+      const cartCounter = document.getElementById('cart-item-count');
+      if (cartCounter) { cartCounter.textContent = getCart().length; }
+    }
+    function addToCart(productId) {
+      const cart = getCart();
+      const productToAdd = produtos.find(p => p.id === productId);
+      if (productToAdd) {
+        cart.push(productToAdd);
+        saveCart(cart);
+        updateCartCounter();
+        alert(`"${productToAdd.nome}" foi adicionado ao carrinho!`);
+      } else { alert('Erro: Produto não encontrado.'); }
+    }
 
-// Cria a mensagem personalizada com o nome do produto
-const mensagem = encodeURIComponent(`Olá! Tenho interesse na semijoia: ${produto.nome}`);
+    // --- INICIALIZAÇÃO DA PÁGINA ---
+    document.addEventListener('DOMContentLoaded', () => {
+      updateCartCounter();
 
-// Cria o link do WhatsApp
-const whatsappLink = `https://wa.me/${seuNumero}?text=${mensagem}`;
+      // Lógica específica para a PÁGINA DE PRODUTO
+      const productDetailContainer = document.getElementById('product-detail-main');
+      if (productDetailContainer) {
+        const params = new URLSearchParams(window.location.search);
+        const productId = params.get('id');
+        const produto = produtos.find(p => p.id === productId);
 
-// Adiciona um evento de clique ao botão
-buyButton.addEventListener('click', () => {
-  // Abre o link do WhatsApp em uma nova aba
-  window.open(whatsappLink, '_blank');
-});
+        if (produto) {
+          document.title = `${produto.nome} - usefransemijoias`;
+          document.getElementById('product-name').textContent = produto.nome;
+          document.getElementById('product-price').textContent = `R$ ${produto.preco.toFixed(2).replace('.', ',')}`;
+          document.getElementById('product-image').src = produto.imagem;
+          document.getElementById('product-image').alt = produto.nome;
+          document.getElementById('product-description').textContent = produto.descricao;
+
+          const addToCartButton = document.getElementById('add-to-cart-button');
+          const buyNowButton = document.getElementById('buy-now-button');
+          const seuNumero = '5569123456789'; // SUBSTITUA PELO SEU NÚMERO
+
+          addToCartButton.addEventListener('click', () => { addToCart(productId); });
+          
+          buyNowButton.addEventListener('click', () => {
+            const mensagem = encodeURIComponent(`Olá! Tenho interesse na semijoia (compra rápida): ${produto.nome}`);
+            const whatsappLink = `https://wa.me/${seuNumero}?text=${mensagem}`;
+            window.open(whatsappLink, '_blank');
+          });
+
+        } else {
+          productDetailContainer.style.display = 'none';
+          document.getElementById('error-message').style.display = 'block';
+          document.title = 'Produto não encontrado - usefransemijoias';
+        }
+      }
+
+      // Lógica para páginas de categoria (não vai rodar aqui, mas está pronta para os outros arquivos)
+      const categoryPage = document.querySelector('.product-grid');
+      if (categoryPage && document.getElementById('sort-filter')) {
+        // ... (o código do filtro continua o mesmo)
+      }
+    });
   </script>
 </body>
 </html>
