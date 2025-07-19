@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Meu Carrinho - usefransemijoias</title>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;900&display=swap" rel="stylesheet" />
+  <style>
+    /* Cole aqui os estilos do seu Header, Sidebar, Footer, etc. para manter a consistência */
+    body { margin: 0; font-family: 'Nunito', sans-serif; background-color: #fff8f1; }
+    /* Adicione os outros estilos aqui... */
+    .site-header { background-color: white; padding: 0 20px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 999; }
+    .header-container { display: flex; justify-content: space-between; align-items: center; max-width: 1200px; margin: 0 auto; height: 60px; }
+    .logo a { text-decoration: none; color: #d4af37; font-weight: 900; font-size: 1.5em;}
+    .cart-icon a { position: relative; }
+    .cart-icon img { width: 32px; }
+    #cart-item-count { position: absolute; top: -5px; right: -10px; background-color: #d4af37; color: white; border-radius: 50%; width: 20px; height: 20px; font-size: 12px; display: flex; align-items: center; justify-content: center; }
+
+    /* Estilos específicos da página do carrinho */
+    .cart-container { max-width: 900px; margin: 40px auto; padding: 20px; background-color: white; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+    .cart-item { display: flex; align-items: center; gap: 20px; border-bottom: 1px solid #eee; padding: 20px 0; }
+    .cart-item:last-child { border-bottom: none; }
+    .cart-item img { width: 80px; height: 80px; border-radius: 8px; object-fit: cover; }
+    .cart-item-info { flex-grow: 1; }
+    .cart-item-info h3 { margin: 0 0 5px; }
+    .cart-item-info p { margin: 0; color: #d4af37; font-weight: bold; }
+    .remove-btn { background: none; border: 1px solid #ccc; color: #888; border-radius: 50%; width: 30px; height: 30px; cursor: pointer; font-size: 16px; }
+    .remove-btn:hover { background-color: #f1f1f1; border-color: #888; }
+    .cart-summary { text-align: right; margin-top: 30px; }
+    .cart-summary h2 { margin-bottom: 20px; }
+    #checkout-whatsapp-btn {
+      background-color: #25D366; color: white; border: none; padding: 15px 30px;
+      font-weight: bold; border-radius: 6px; cursor: pointer; font-size: 1.1em;
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-container">
+      <div class="logo"><a href="index.html">usefransemijoias</a></div>
+      <div class="cart-icon">
+        <a href="carrinho.html">
+          <img src='data:image/svg+xml;...' alt="Carrinho">
+          <span id="cart-item-count">0</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main class="cart-container">
+    <h1>Meu Carrinho de Compras</h1>
+    <div id="cart-items-container">
+      </div>
+    <p id="empty-cart-message" style="display: none;">Seu carrinho está vazio.</p>
+    
+    <div class="cart-summary">
+      <h2 id="cart-total">Total: R$ 0,00</h2>
+      <button id="checkout-whatsapp-btn">Finalizar Pedido no WhatsApp</button>
+    </div>
+  </main>
+  
+  <script>
+    // Funções do Carrinho (copie do seu script principal, se precisar)
+    function getCart() { return JSON.parse(localStorage.getItem('usefran_cart')) || []; }
+    function saveCart(cart) { localStorage.setItem('usefran_cart', JSON.stringify(cart)); }
+    function updateCartCounter() {
+      const cartCounter = document.getElementById('cart-item-count');
+      if (cartCounter) { cartCounter.textContent = getCart().length; }
+    }
+    
+    document.addEventListener('DOMContentLoaded', () => {
+      updateCartCounter();
+      const cartItemsContainer = document.getElementById('cart-items-container');
+      const emptyCartMessage = document.getElementById('empty-cart-message');
+      const cartTotalEl = document.getElementById('cart-total');
+      const checkoutBtn = document.getElementById('checkout-whatsapp-btn');
+      let cart = getCart();
+      
+      function renderCart() {
+        cartItemsContainer.innerHTML = ''; // Limpa a visualização atual
+        let total = 0;
+        
+        if (cart.length === 0) {
+          emptyCartMessage.style.display = 'block';
+          checkoutBtn.style.display = 'none';
+        } else {
+          emptyCartMessage.style.display = 'none';
+          checkoutBtn.style.display = 'block';
+
+          cart.forEach((item, index) => {
+            total += item.preco;
+            const itemHtml = `
+              <div class="cart-item">
+                <img src="${item.imagem}" alt="${item.nome}">
+                <div class="cart-item-info">
+                  <h3>${item.nome}</h3>
+                  <p>R$ ${item.preco.toFixed(2).replace('.', ',')}</p>
+                </div>
+                <button class="remove-btn" data-index="${index}">X</button>
+              </div>
+            `;
+            cartItemsContainer.innerHTML += itemHtml;
+          });
+        }
+        cartTotalEl.textContent = `Total: R$ ${total.toFixed(2).replace('.', ',')}`;
+      }
+
+      // Lógica para remover item
+      cartItemsContainer.addEventListener('click', (event) => {
+        if (event.target.classList.contains('remove-btn')) {
+          const itemIndex = parseInt(event.target.dataset.index);
+          cart.splice(itemIndex, 1); // Remove o item do array
+          saveCart(cart); // Salva o carrinho atualizado
+          renderCart(); // Re-desenha o carrinho na tela
+          updateCartCounter(); // Atualiza o contador no header
+        }
+      });
+      
+      // Lógica para finalizar no WhatsApp
+      checkoutBtn.addEventListener('click', () => {
+        let mensagem = "Olá! Tenho interesse nos seguintes itens:\n\n";
+        cart.forEach(item => {
+          mensagem += `- ${item.nome} (R$ ${item.preco.toFixed(2).replace('.', ',')})\n`;
+        });
+        const totalPedido = cart.reduce((sum, item) => sum + item.preco, 0);
+        mensagem += `\n*Total: R$ ${totalPedido.toFixed(2).replace('.', ',')}*`;
+
+        const seuNumero = '5569123456789'; // SEU NÚMERO DE RONDÔNIA
+        const linkWhatsapp = `https://wa.me/${seuNumero}?text=${encodeURIComponent(mensagem)}`;
+        window.open(linkWhatsapp, '_blank');
+      });
+
+      renderCart(); // Desenha o carrinho inicial ao carregar a página
+    });
+  </script>
+</body>
+</html>
